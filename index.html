@@ -17,7 +17,7 @@
             </div>
         </div>
         <script type="text/ng-template" id="/home.html">
-            <header class="page-header">
+            <header>
                 <h1>Flapper News</h1>
             </header>
 
@@ -28,6 +28,7 @@
                     <a data-ng-show="post.link" href="{{post.link}}">{{post.title}}</a>
                     <span data-ng-hide="post.link">{{post.title}}</span>
                 </span>
+                <span><a href="#/posts/{{$index}}">Comments</a></span>
             </div>
             <form data-ng-submit="addPost()" style="margin-top: 30px;">
                 <h3>Add a new post</h3>
@@ -37,6 +38,30 @@
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" data-ng-model="link" placeholder="Link"></input>
+                </div>
+                <button type="submit" class="btn btn-primary">Post</button>
+            </form>
+        </script>
+        <script type="text/ng-template" id="/posts.html">
+            <header>
+                <h3>
+                    <a ng-show="post.link" href="{{post.link}}">
+                        {{post.title}}
+                    </a>
+                    <span ng-hide="post.link">
+                        {{post.title}}
+                    </span>
+                </h3>
+            </header>
+            <div data-ng-repeat="comment in post.comments | orderBy:'-upvotes'">
+                <span class="glyphicon glyphicon-thumbs-up" data-ng-click="incrementUpvotes(comment)"></span>
+                {{comment.upvotes}} - by {{comment.author}}
+                <span style="font-size:20px; margin-left:10px;">{{comment.body}}</span>
+            </div>
+            <form data-ng-submit="addComment()" style="margin-top: 30px;">
+                <h3>Add a new comment</h3>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Comment" data-ng-model="body"></input>
                 </div>
                 <button type="submit" class="btn btn-primary">Post</button>
             </form>
